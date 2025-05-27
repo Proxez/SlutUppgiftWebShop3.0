@@ -11,14 +11,19 @@ internal class Order
     public int Id { get; set; }
     public int CustomerId { get; set; }
     public virtual Customer Customer { get; set; }
+    public int DeliveryOptionId { get; set; }
+    public DeliveryOption DeliveryOption { get; set; }
+    public int PaymentOptionId { get; set; }
+    public PaymentOption PaymentOption { get; set; }
     public DateTime OrderDate { get; set; }
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public decimal TotalPrice { get; set; } // Total price of the order
 
-    public static async Task PlaceOrder(int customerId)
+    public static async Task PlaceOrder(int customerId, int deliveryOptionId, int paymentOptionId)
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             //var cart = await db.Carts.Include(c => c.Items).FirstOrDefaultAsync(c => c.CustomerId == customerId);
             //if (cart != null && cart.Items.Any())
             //{
@@ -55,6 +60,8 @@ internal class Order
                 var order = new Order
                 {
                     CustomerId = customerId,
+                    DeliveryOptionId = deliveryOptionId,
+                    PaymentOptionId = paymentOptionId,
                     OrderDate = DateTime.Now,
                     TotalPrice = cart.TotalPrice
                 };
@@ -70,13 +77,8 @@ internal class Order
                 }
 
                 db.Orders.Add(order);
-
-                // Återställ lagersaldo hanteras redan vid AddToCart – så du behöver inte göra det här.
-
-                // Ta bort kundvagnen
                 db.Carts.Remove(cart);
-
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 Console.WriteLine("Order placed successfully!");
             }
             else
@@ -89,10 +91,10 @@ internal class Order
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             var orders = await db.Orders
             .Include(o => o.OrderDetails)
             .ThenInclude(od => od.Product)
-            //.Where(o => o.CustomerId == customerId)
             .ToListAsync();
 
             if (orders.Any())
@@ -111,6 +113,55 @@ internal class Order
             else
             {
                 Console.WriteLine("No orders found for this customer.");
+            }
+        }
+    }
+    public static async Task AddInformationBeforeOrder(int userId)
+    {
+        using (var db = new MyDbContext())
+        {
+            Console.Clear();
+            var getPersonData = await db.Customers.FindAsync(userId);
+            Console.WriteLine("Selecting data... ");
+            Console.WriteLine(getPersonData.FirstName);
+            Console.WriteLine(getPersonData.LastName);
+            Console.WriteLine(getPersonData.Email);
+            Console.WriteLine(getPersonData.PhoneNumber);
+            Console.WriteLine(getPersonData.Address);
+            Console.WriteLine(getPersonData.ZipCode);
+            Console.WriteLine("Is this data correct?");
+            Console.WriteLine("1. Yes");
+            Console.WriteLine("2. No, I want to change it");
+            int choice = int.Parse(Console.ReadLine());
+
+            if (choice == 1)
+            {
+                Console.WriteLine("Proceeding to order...");
+            }
+            else if (choice == 2)
+            {
+                Console.WriteLine("Please enter your updated information:");
+                Console.Write("First Name: ");
+                getPersonData.FirstName = Console.ReadLine();
+                Console.Write("Last Name: ");
+                getPersonData.LastName = Console.ReadLine();
+                Console.Write("Email: ");
+                getPersonData.Email = Console.ReadLine();
+                Console.Write("Phone Number: ");
+                getPersonData.PhoneNumber = Console.ReadLine();
+                Console.Write("Address: ");
+                getPersonData.Address = Console.ReadLine();
+                Console.Write("Zip Code: ");
+                getPersonData.ZipCode = int.Parse(Console.ReadLine());
+
+                db.Customers.Update(getPersonData);
+                await db.SaveChangesAsync();
+
+                Console.WriteLine("Information updated successfully. Proceeding to order...");
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice. Returning to main menu.");
             }
         }
     }

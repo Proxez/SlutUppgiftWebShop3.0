@@ -19,6 +19,7 @@ internal class Employee : Person
 
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             Console.WriteLine("Register account:");
 
             Console.WriteLine("Choose a username: ");
@@ -84,6 +85,7 @@ internal class Employee : Person
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var employee in db.Employees.ToList())
             {
                 Console.WriteLine($"ID: {employee.EmployeeId}, FirstName: {employee.FirstName}, LastName: {employee.LastName}, Email: {employee.Email}, PhoneNumber: {employee.PhoneNumber}, Address: {employee.Address}, ZipCode: {employee.ZipCode}, IsCustomer: {employee.IsCustomer}");
@@ -94,6 +96,7 @@ internal class Employee : Person
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var listEmployee in db.Employees)
             {
                 Console.WriteLine($"ID: {listEmployee.EmployeeId}, FirstName: {listEmployee.FirstName}, LastName: {listEmployee.LastName}, Email: {listEmployee.Email}, PhoneNumber: {listEmployee.PhoneNumber}, Address: {listEmployee.Address}, ZipCode: {listEmployee.ZipCode}, IsCustomer: {listEmployee.IsCustomer}");
@@ -112,6 +115,7 @@ internal class Employee : Person
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var listEmployee in db.Employees)
             {
                 Console.WriteLine($"ID: {listEmployee.EmployeeId}, FirstName: {listEmployee.FirstName}, LastName: {listEmployee.LastName}, Email: {listEmployee.Email}, PhoneNumber: {listEmployee.PhoneNumber}, Address: {listEmployee.Address}, ZipCode: {listEmployee.ZipCode}, IsCustomer: {listEmployee.IsCustomer}");

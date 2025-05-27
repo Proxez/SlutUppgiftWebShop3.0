@@ -8,8 +8,8 @@ namespace SlutUppgiftWebShop
 {
     internal class Program
     {
-        public static int numberOne = 1;
-        public static int numberTwo = 2;
+        public static int numberOne = 9;
+        public static int numberTwo = 9;
         public static int numberThree = 3;
         static async Task Main(string[] args)
         {
@@ -25,11 +25,11 @@ namespace SlutUppgiftWebShop
             {
                 Console.WriteLine("Welcome to the Web Shop!");
 
-                Console.WriteLine($"Most viewed item: {await Product.ViewProductById(numberOne)}");
+                Console.WriteLine($"Most viewed item: {await Product.ViewProductByIdStart(numberOne)}");
 
-                Console.WriteLine($"Most popular : {await Product.ViewProductById(numberTwo)}");
+                Console.WriteLine($"Most popular : {await Product.ViewProductByIdStart(numberTwo)}");
 
-                Console.WriteLine($"Promotional price : {await Product.ViewProductById(numberThree)}");
+                Console.WriteLine($"Promotional price : {await Product.ViewProductByIdStart(numberThree)}");
 
 
                 Console.WriteLine("1. Login");
@@ -39,10 +39,10 @@ namespace SlutUppgiftWebShop
                 switch (input)
                 {
                     case 1:
-                        Login().GetAwaiter();
+                        await Login();
                         break;
                     case 2:
-                        Register().GetAwaiter();
+                        await Register();
                         break;
                     case 3:
                         Console.WriteLine("Exiting the application.");
@@ -62,6 +62,7 @@ namespace SlutUppgiftWebShop
             bool loop = true;
             while (loop)
             {
+                Console.Clear();
                 using (var db = new MyDbContext())
                 {
                     Console.Write("Username: ");
@@ -102,6 +103,7 @@ namespace SlutUppgiftWebShop
         {
             using (var db = new MyDbContext())
             {
+                Console.Clear();
                 Console.WriteLine("Register account:");
 
                 Console.WriteLine("Choose a username: ");
@@ -183,9 +185,10 @@ namespace SlutUppgiftWebShop
 
         public static async Task AdminMenu(Employee admin)
         {
-            bool loop = true; 
+            bool loop = true;
             while (loop)
             {
+                Console.Clear();
                 Console.WriteLine("Admin Menu");
                 Console.WriteLine("1. Add");
                 Console.WriteLine("2. View");
@@ -197,16 +200,16 @@ namespace SlutUppgiftWebShop
                 switch (input)
                 {
                     case 1:
-                        AdminAdd().GetAwaiter();
+                        await AdminAdd();
                         break;
                     case 2:
-                        AdminView().GetAwaiter();
+                        await AdminView();
                         break;
                     case 3:
-                        AdminUpdate().GetAwaiter();
+                        await AdminUpdate();
                         break;
                     case 4:
-                        AdminDelete().GetAwaiter();
+                        await AdminDelete();
                         break;
                     case 5:
                         Console.WriteLine("Exiting the application.");
@@ -224,6 +227,7 @@ namespace SlutUppgiftWebShop
         {
             using (var db = new MyDbContext())
             {
+                Console.Clear();
                 Console.WriteLine("Admin AddMenu");
                 Console.WriteLine("1. Product");
                 Console.WriteLine("2. Customers");
@@ -234,16 +238,19 @@ namespace SlutUppgiftWebShop
                 switch (input)
                 {
                     case 1:
-                        Product.AddProduct().GetAwaiter();
+                        await Product.AddProduct();
                         break;
                     case 2:
-                        Customer.AddCustomer().GetAwaiter();
+                        await Customer.AddCustomer();
                         break;
                     case 3:
-                        Employee.AddEmployee().GetAwaiter();
+                        await Employee.AddEmployee();
                         break;
                     case 4:
-                        Category.AddCategory().GetAwaiter();
+                        await Category.AddCategory();
+                        break;
+                    case 5:
+                        await Supplyer.AddSupplyer();
                         break;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
@@ -254,36 +261,44 @@ namespace SlutUppgiftWebShop
         }
         public static async Task AdminView()
         {
-            using var db = new MyDbContext();
-            Console.WriteLine("Admin ViewerMenu");
-            Console.WriteLine("1. Product");
-            Console.WriteLine("2. Customers");
-            Console.WriteLine("3. Employees");
-            Console.WriteLine("4. Category");
-            int input = int.Parse(Console.ReadLine());
-            switch (input)
+            using (var db = new MyDbContext())
             {
-                case 1:
-                    Product.ViewAllProducts().GetAwaiter();
-                    break;
-                case 2:
-                    Customer.ViewAllCustomer().GetAwaiter();
-                    break;
-                case 3:
-                    Employee.ViewAllEmployee().GetAwaiter();
-                    break;
-                case 4:
-                    Category.ViewAllCategories().GetAwaiter();
-                    break;
-                default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
+
+                Console.Clear();
+                Console.WriteLine("Admin ViewerMenu");
+                Console.WriteLine("1. Product");
+                Console.WriteLine("2. Customers");
+                Console.WriteLine("3. Employees");
+                Console.WriteLine("4. Category");
+                int input = int.Parse(Console.ReadLine());
+                switch (input)
+                {
+                    case 1:
+                        await Product.ViewAllProducts();
+                        break;
+                    case 2:
+                        await Customer.ViewAllCustomer();
+                        break;
+                    case 3:
+                        await Employee.ViewAllEmployee();
+                        break;
+                    case 4:
+                        await Category.ViewAllCategories();
+                        break;
+                    case 5:
+                        await Supplyer.ViewAllSupplyers();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
             }
         }
         public static async Task AdminDelete()
         {
             using (var db = new MyDbContext())
             {
+                Console.Clear();
                 Console.WriteLine("Admin DeleteMenu");
                 Console.WriteLine("1. Product");
                 Console.WriteLine("2. Customers");
@@ -293,16 +308,19 @@ namespace SlutUppgiftWebShop
                 switch (input)
                 {
                     case 1:
-                        Product.DeleteProduct().GetAwaiter();
+                        await Product.DeleteProduct();
                         break;
                     case 2:
-                        Customer.DeleteCustomer().GetAwaiter();
+                        await Customer.DeleteCustomer();
                         break;
                     case 3:
-                        Employee.DeleteEmployee().GetAwaiter();
+                        await Employee.DeleteEmployee();
                         break;
                     case 4:
-                        Category.DeleteCategory().GetAwaiter();
+                        await Category.DeleteCategory();
+                        break;
+                    case 5:
+                        await Supplyer.DeleteSupplyer();
                         break;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
@@ -314,6 +332,7 @@ namespace SlutUppgiftWebShop
         {
             using (var db = new MyDbContext())
             {
+                Console.Clear();
                 Console.WriteLine("Admin UpdateMenu");
                 Console.WriteLine("1. Product");
                 Console.WriteLine("2. Customers");
@@ -325,31 +344,34 @@ namespace SlutUppgiftWebShop
                 switch (input)
                 {
                     case 1:
-                        Product.UpdateProduct().GetAwaiter();
+                        await Product.UpdateProduct();
                         break;
                     case 2:
-                        Customer.UpdateCustomer().GetAwaiter();
+                        await Customer.UpdateCustomer();
                         break;
                     case 3:
-                        Employee.UpdateEmployee().GetAwaiter();
+                        await Employee.UpdateEmployee();
                         break;
                     case 4:
-                        Category.UpdateCategory().GetAwaiter();
+                        await Category.UpdateCategory();
                         break;
                     case 5:
+                        await Supplyer.UpdateSupplyer();
+                        break;
+                    case 6:
                         Console.WriteLine("What do you want to change?(view, popular or promotional)");
                         string answer = Console.ReadLine().ToLower();
                         if (answer == "view")
                         {
-                            UpdateViewedProduct();
+                            await UpdateViewedProduct();
                         }
                         else if (answer == "popular")
                         {
-                            UpdatePopularProduct();
+                            await UpdatePopularProduct();
                         }
                         else if (answer == "promotional")
                         {
-                            UpdatePromotionalProduct();
+                            await UpdatePromotionalProduct();
                         }
                         else
                         {
@@ -368,64 +390,61 @@ namespace SlutUppgiftWebShop
             bool loop = true;
             while (loop)
             {
-                //Customer logged in view
                 Console.WriteLine("Main Menu:");
                 Console.WriteLine("1. View Products");
                 Console.WriteLine("2. View Cart");
                 Console.WriteLine("3. Checkout");
                 Console.WriteLine("4. View Orders");
                 Console.WriteLine("5. Logout");
-                Console.WriteLine("6. View All Products in Category");
-                Console.WriteLine("7. View Products in Category");
-                Console.WriteLine("8. Exit");
+                Console.WriteLine("6. View Products in Category");
+                //Console.WriteLine("7. View Products in Category");
+                Console.WriteLine("0. Exit");
                 int switchInput = int.Parse(Console.ReadLine());
                 switch (switchInput)
                 {
                     case 1:
                         // Call method to view products
-                        Product.ViewAllProducts().GetAwaiter();
-                        Console.Write("Pick product-ID to add to cart: ");
+
+                        await Category.ViewAllProductsInCategory();
+                        Console.Write("Pick product-ID: ");
                         if (!int.TryParse(Console.ReadLine(), out int productId))
                         {
                             Console.WriteLine("Invalid product-ID.");
                             break;
                         }
-                        Console.Write("Specify amount: ");
-                        if (!int.TryParse(Console.ReadLine(), out int quantity))
-                        {
-                            Console.WriteLine("Invalid amount.");
-                            break;
-                        }
-                        Cart.AddToCart(user.Id, productId, quantity).GetAwaiter();
+                        await Product.ViewProductInfoById(productId, user.Id);
                         break;
                     case 2:
                         // Call method to view cart
-                        Cart.ViewCart(user.Id).GetAwaiter();
+                        await Cart.ViewCart(user.Id);
                         break;
                     case 3:
                         // Call method to checkout
-                        Order.PlaceOrder(user.Id).GetAwaiter();
+                        var choosePayment = PaymentOption.ChoosePayment();
+                        var deliveryOption = DeliveryOption.ChooseDeliveryOption();
+                        await Order.AddInformationBeforeOrder(user.Id);
+                        await Order.PlaceOrder(user.Id, choosePayment, deliveryOption);
                         //Lägg till switch för att välja leveranssätt,Tömma kundvagn, betala
                         break;
                     case 4:
                         // Call method to view orders
-                        Order.ViewOrders(user.Id).GetAwaiter();
+                        await Order.ViewOrders(user.Id);
                         break;
                     case 5:
+                        await Product.SearchProduct();
+                        break;
+                    case 6:
+                        await Category.ViewProductsInCategory();
+                        break;
+                    case 7:
+                        break;
+                    case 0:
                         // Call method to logout
                         Console.WriteLine("Logging out...");
                         loop = false;
                         break;
-                    case 6:
-                        Product.SearchProduct().GetAwaiter();
-                        Category.ViewAllProductsInCategory();
-                        break;
-                    case 7:
-                        Category.ViewProductsInCategory();
-                        break;
-                    case 8:
+                    case 9:
                         Console.WriteLine("Exiting the application.");
-                        //Environment.Exit(0);
                         loop = false;
                         break;
                     default:

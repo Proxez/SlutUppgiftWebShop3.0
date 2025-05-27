@@ -12,11 +12,12 @@ internal class Category
     public int Id { get; set; }
     public string CategoryName { get; set; }
     public string CategoryDescription { get; set; }
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>(); //Navigation property to Product table
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     public static async Task AddCategory()
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             Console.WriteLine("What category do you wanna add?");
             string inputCategoryName = Console.ReadLine();
             Console.WriteLine("What is the description of the category?");
@@ -32,6 +33,7 @@ internal class Category
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var category in db.Categories.ToList())
             {
                 Console.WriteLine($"Category ID: {category.Id}, Name: {category.CategoryName}, Description: {category.CategoryDescription}");
@@ -42,6 +44,7 @@ internal class Category
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             Console.WriteLine("What category do you wanna delete?");
             string inputCategoryName = Console.ReadLine();
             var categoryToDelete = db.Categories.FirstOrDefault(c => c.CategoryName == inputCategoryName);
@@ -56,6 +59,7 @@ internal class Category
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             ViewAllCategories();
             Console.WriteLine("What category do you wanna update?");
             int inputCategoryId = int.Parse(Console.ReadLine());
@@ -79,22 +83,38 @@ internal class Category
     {
         using (var db = new MyDbContext())
         {
-            Console.WriteLine("Enter the category name to view products:");
-            string inputCategoryName = Console.ReadLine();
-            //var category = db.Categories.FirstOrDefault(c => c.CategoryName == inputCategoryName);
-
-            foreach (var category in db.Categories.Include(c => c.Products))
+            Console.WriteLine("Enter the category ID to view products: ");
+            if (int.TryParse(Console.ReadLine(), out int inputCategoryId))
             {
-                Console.WriteLine($"Category ID: {category.Id}, Name: {category.CategoryName}, Description: {category.CategoryDescription}");
-                foreach (var product in category.Products)
-                    Console.WriteLine($"\t Product ID: {product.Id}, Name: {product.ProductName}, Price: {product.Price}, Units in Stock: {product.UnitsInStock}");
+                Console.Clear();
+                var category = db.Categories
+                    .Include(c => c.Products)
+                    .FirstOrDefault(c => c.Id == inputCategoryId);
+
+                if (category != null)
+                {
+                    Console.WriteLine($"Category ID: {category.Id}, Name: {category.CategoryName}, Description: {category.CategoryDescription}");
+                    foreach (var product in category.Products)
+                    {
+                        Console.WriteLine($"\t Product ID: {product.Id}, Name: {product.ProductName}, Price: {product.Price}, Units in Stock: {product.UnitsInStock}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Category not found.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid category ID.");
             }
         }
     }
     public static async Task ViewAllProductsInCategory()
     {
         using (var db = new MyDbContext())
-        {            
+        {
+            Console.Clear();
             //var category = db.Categories.FirstOrDefault(c => c.CategoryName == inputCategoryName);
 
             foreach (var category in db.Categories.Include(c => c.Products))

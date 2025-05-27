@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,17 @@ internal class Customer : Person
 
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             Console.WriteLine("Register account:");
 
             Console.WriteLine("Choose a username: ");
             string inputUserName = Console.ReadLine();
 
-            //if (await db.Customers.AnyAsync(u => u.UserName == inputUserName) && await db.Employees.AnyAsync(u => u.UserName == inputUserName))
-            //{
-            //    Console.WriteLine("Username already exists. Please choose a different username.");
-            //    return;
-            //}
+            if (await db.People.AnyAsync(u => u.UserName == inputUserName))
+            {
+                Console.WriteLine("Username already exists. Please choose a different username.");
+                return;
+            }
 
             Console.WriteLine("Choose a password: ");
             string inputPassword = Console.ReadLine();
@@ -56,6 +58,7 @@ internal class Customer : Person
 
             if (inputIsCustomer)
             {
+                Console.Clear();
                 var customer = new Customer
                 {
                     UserName = inputUserName,
@@ -101,20 +104,19 @@ internal class Customer : Person
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var customer in db.Customers.ToList())
             {
                 Console.WriteLine($"ID: {customer.Id}, FirstName: {customer.FirstName}, LastName: {customer.LastName}, Email: {customer.Email}, PhoneNumber: {customer.PhoneNumber}, Address: {customer.Address}, ZipCode: {customer.ZipCode}, IsCustomer: {customer.IsCustomer}");
             }
-            foreach (var people in db.People.ToList())
-            {
-                Console.WriteLine($"ID: {people.Id}, FirstName: {people.FirstName}, LastName: {people.LastName}, Email: {people.Email}, PhoneNumber: {people.PhoneNumber}, Address: {people.Address}, ZipCode: {people.ZipCode}, IsCustomer: {people.IsCustomer}");
-            }
+            
         }
     }
     public static async Task DeleteCustomer()
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var listCustomer in db.Customers)
             {
                 Console.WriteLine($"ID: {listCustomer.Id}, FirstName: {listCustomer.FirstName}, LastName: {listCustomer.LastName}, Email: {listCustomer.Email}, PhoneNumber: {listCustomer.PhoneNumber}, Address: {listCustomer.Address}, ZipCode: {listCustomer.ZipCode}, IsCustomer: {listCustomer.IsCustomer}");
@@ -133,6 +135,7 @@ internal class Customer : Person
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             foreach (var listCustomer in db.Customers)
             {
                 Console.WriteLine($"ID: {listCustomer.Id}, FirstName: {listCustomer.FirstName}, LastName: {listCustomer.LastName}, Email: {listCustomer.Email}, PhoneNumber: {listCustomer.PhoneNumber}, Address: {listCustomer.Address}, ZipCode: {listCustomer.ZipCode}, IsCustomer: {listCustomer.IsCustomer}");
@@ -143,16 +146,16 @@ internal class Customer : Person
 
             db.Customers.Find(Id);
 
-            var selectedCustomer = db.Customers.Where(p => p.Id == Id).FirstOrDefault();
+            var selectedCustomer = await db.Customers.Where(p => p.Id == Id).FirstOrDefaultAsync();
 
             Console.WriteLine("Choose a new username: ");
             string inputUserName = Console.ReadLine();
 
-            //if (await db.Customers.AnyAsync(u => u.UserName == inputUserName) && await db.Employees.AnyAsync(u => u.UserName == inputUserName))
-            //{
-            //    Console.WriteLine("Username already exists. Please choose a different username.");
-            //    return;
-            //}
+            if (await db.People.AnyAsync(u => u.UserName == inputUserName))
+            {
+                Console.WriteLine("Username already exists. Please choose a different username.");
+                return;
+            }
 
             Console.WriteLine("Choose a new password: ");
             string inputPassword = Console.ReadLine();

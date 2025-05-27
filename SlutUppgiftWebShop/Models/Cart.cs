@@ -14,21 +14,23 @@ internal class Cart
     public ICollection<CartItem> Items { get; set; } = new List<CartItem>();
     public decimal TotalPrice { get; set; }
 
+
     public static async Task AddToCart(int userId, int productId, int quantity)
     {
         using (var db = new MyDbContext())
             try
             {
-                var cart = db.Carts
+                Console.Clear();
+                var cart = await db.Carts
                     .Include(c => c.Items)
                     .ThenInclude(i => i.Product)
-                    .FirstOrDefault(c => c.CustomerId == userId);
+                    .FirstOrDefaultAsync(c => c.CustomerId == userId);
 
                 if (cart == null)
                 {
                     cart = new Cart { CustomerId = userId, TotalPrice = 0 };
                     db.Carts.Add(cart);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
 
                 var product = db.Products.FirstOrDefault(p => p.Id == productId);
@@ -122,6 +124,7 @@ internal class Cart
     {
         using (var db = new MyDbContext())
         {
+            Console.Clear();
             var cart = await db.Carts
             .Include(c => c.Items)
             .ThenInclude(i => i.Product)
@@ -139,6 +142,28 @@ internal class Cart
                 Console.WriteLine($"Product: {item.Product.ProductName}, Quantity: {item.Quantity}, Price: {item.Product.Price:C}");
             }
             Console.WriteLine($"Total Price: {cart.TotalPrice:C}");
+
+            Console.WriteLine("1. Remove item from cart");
+            Console.WriteLine("2. Clear cart");
+            Console.WriteLine("3. Back");
+            int switchInput = int.Parse(Console.ReadLine());
+            switch (switchInput)
+            {
+                case 1:
+                    Console.WriteLine("Enter product ID to remove:");
+                    int productId = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter quantity to remove:");
+                    int quantity = int.Parse(Console.ReadLine());
+                    await RemoveFromCart(userId, productId, quantity);
+                    break;
+                case 2:
+                    await ClearCart(userId);
+                    break;
+                case 3:
+                    
+                    break;
+            }
+
         }
     }
 
@@ -146,10 +171,11 @@ internal class Cart
     {
         using (var db = new MyDbContext())
         {
-            var cart = db.Carts
+            Console.Clear();
+            var cart = await db.Carts
                 .Include(c => c.Items)
-                .ThenInclude(i => i.Product) 
-                .FirstOrDefault(c => c.CustomerId == userId);
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == userId);
 
             if (cart != null)
             {
@@ -164,7 +190,7 @@ internal class Cart
                     if (item.Quantity <= 0)
                         cart.Items.Remove(item);
 
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
                 else
                 {
@@ -182,10 +208,11 @@ internal class Cart
     {
         using (var db = new MyDbContext())
         {
-            var cart = db.Carts
+            Console.Clear();
+            var cart = await db.Carts
                 .Include(c => c.Items)
-                .ThenInclude(i => i.Product) //Navigation to Product is through CartItem
-                .FirstOrDefault(c => c.CustomerId == userId);
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == userId);
 
             if (cart != null)
             {
@@ -194,10 +221,10 @@ internal class Cart
                     item.Product.UnitsInStock += item.Quantity;
                 }
 
-                cart.Items.Clear();
+                db.CartItems.RemoveRange(cart.Items);
                 cart.TotalPrice = 0;
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             else
             {

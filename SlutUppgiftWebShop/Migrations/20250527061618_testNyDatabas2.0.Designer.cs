@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlutUppgiftWebShop.Models;
 
@@ -11,9 +12,11 @@ using SlutUppgiftWebShop.Models;
 namespace SlutUppgiftWebShop.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250527061618_testNyDatabas2.0")]
+    partial class testNyDatabas20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,7 +509,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 16,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Workshop",
                             Price = 13490m,
                             ProductName = "Philips 32\" Evnia 32M2N8900 OLED 4K 240 Hz Ambiglow",
@@ -516,7 +519,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 17,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Workshop",
                             Price = 3900m,
                             ProductName = "Philips 24\" Evnia 24M1N3200ZS IPS 165 Hz",
@@ -526,7 +529,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 18,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Gamingmonitor",
                             Price = 17990m,
                             ProductName = "LG 32\" UltraGear 32GS95UV OLED 4K 240/480 Hz Dual Mode",
@@ -536,7 +539,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 19,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Gamingmonitor",
                             Price = 11990m,
                             ProductName = "LG 27\" UltraGear 27GX790A OLED QHD 480 Hz",
@@ -546,7 +549,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 20,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Coding monitor",
                             Price = 31990m,
                             ProductName = "Samsung 55\" Odyssey ARK (2nd gen.) Quantum Mini LED 4K 165 Hz",
@@ -556,7 +559,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 21,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Coding monitor",
                             Price = 14990m,
                             ProductName = "Samsung 32'' Odyssey G81SF OLED 4K 240 Hz",
@@ -566,7 +569,7 @@ namespace SlutUppgiftWebShop.Migrations
                         new
                         {
                             Id = 22,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Coding monitor",
                             Price = 15990m,
                             ProductName = "Samsung 49\" Odyssey G93SC OLED DQHD (1800R) 240 Hz",

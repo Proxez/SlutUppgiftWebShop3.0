@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlutUppgiftWebShop.Models;
 
@@ -11,9 +12,11 @@ using SlutUppgiftWebShop.Models;
 namespace SlutUppgiftWebShop.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250526191619_UpdateClasses2.2")]
+    partial class UpdateClasses22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +36,17 @@ namespace SlutUppgiftWebShop.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CustomerId1")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1");
 
                     b.ToTable("Carts");
                 });
@@ -88,32 +96,6 @@ namespace SlutUppgiftWebShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryDescription = "You can find all our computers here.",
-                            CategoryName = "Computers"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryDescription = "You can find all our components for every kind of computer",
-                            CategoryName = "Computer components"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryDescription = "You can find all the newest phones here",
-                            CategoryName = "Phones"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryDescription = "You can find the best monitors here",
-                            CategoryName = "Monitors"
-                        });
                 });
 
             modelBuilder.Entity("SlutUppgiftWebShop.Models.DeliveryOption", b =>
@@ -351,228 +333,6 @@ namespace SlutUppgiftWebShop.Migrations
                     b.HasIndex("SupplyerId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 8990m,
-                            ProductName = "ASUS Radeon RX 9070 XT 16GB Prime OC",
-                            SupplyerId = 1,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 9490m,
-                            ProductName = "PowerColor Radeon RX 9070 XT 16GB Red Devil",
-                            SupplyerId = 1,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 27999m,
-                            ProductName = "MSI GeForce RTX 5090 32GB Ventus 3X OC",
-                            SupplyerId = 3,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 5399m,
-                            ProductName = "MSI GeForce RTX 5060 Ti 16GB Ventus 2X OC Plus",
-                            SupplyerId = 3,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 3489m,
-                            ProductName = "Intel Arc B580 12GB Limited Edition",
-                            SupplyerId = 2,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 2,
-                            Description = "GPU",
-                            Price = 4490m,
-                            ProductName = "ASRock Arc A770 16GB Phantom Gaming OC",
-                            SupplyerId = 2,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryId = 1,
-                            Description = "Taurus Gaming Case RGB\r\nAMD Ryzen 7 7800X3D 4.2GHz 104MB\r\nPowerColor Radeon RX 9070 XT 16GB Hellhound\r\nASUS TUF Gaming B650-E WIFI\r\nKingston 32GB (2x16GB) DDR5 6000MHz CL30 FURY Beast Svart AMD EXPO/XMP 3.0\r\nKingston NV3 M.2 NVMe Gen 4 2TB\r\nCooler Master Hyper 212 Black Edition\r\nCorsair RM850e (2025) ATX 3.1\r\nWindows 11 Home",
-                            Price = 24999m,
-                            ProductName = "Taurus Hardcore Gaming RX 9070 XT - 7800X3D",
-                            SupplyerId = 1,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CategoryId = 1,
-                            Description = "Fractal Design North Svart\r\nAMD Ryzen 7 9800X3D 4.7 GHz 104MB\r\nPowerColor Radeon RX 9070 XT 16GB Hellhound\r\nASUS TUF Gaming B650-E WIFI\r\nKingston 32GB (2x16GB) DDR5 6000MHz CL30 FURY Beast Svart AMD EXPO/XMP 3.0\r\nKingston NV3 M.2 NVMe Gen 4 2TB\r\nCorsair Nautilus 240 RS Svart\r\nCorsair RM850e (2025) ATX 3.1\r\nWindows 11 Home",
-                            Price = 28999m,
-                            ProductName = "System G70 R7X3D/9070 XT",
-                            SupplyerId = 1,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CategoryId = 1,
-                            Description = "Corsair 3500X TG Svart\r\nAMD Ryzen 9 9950X3D 4.3GHz 144MB\r\nASUS GeForce RTX 5090 32GB ROG Astral OC\r\nASUS ROG Strix B850-F Gaming WIFI\r\nCorsair 64GB (2x32GB) DDR5 6400MHz CL32 Dominator Platinum RGB\r\nSamsung 9100 PRO M.2 NVMe Gen5 2TB\r\nCorsair iCUE Link Titan RX LCD 360 Svart\r\n6x Corsair iCUE LINK RX120 RGB Svart\r\nCorsair RM1000e (2025) ATX 3.1\r\nWindows 11 Home",
-                            Price = 64999m,
-                            ProductName = "System G90 R9X3D/5090",
-                            SupplyerId = 3,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CategoryId = 1,
-                            Description = "Taurus Gaming Case RGB\r\nAMD Ryzen 7 7800X3D 4.2GHz 104MB\r\nASUS GeForce RTX 5070 Ti 16GB TUF Gaming OC\r\nASUS TUF Gaming B650-Plus WIFI\r\nCorsair 32GB (2x16GB) DDR5 6000MHz CL36 Vengeance AMD EXPO/XMP 3.0\r\nKingston NV3 M.2 NVMe Gen 4 1TB\r\nCooler Master Hyper 212 Black Edition\r\nCorsair RM750e (2025) ATX 3.1\r\nWindows 11 Home",
-                            Price = 26999m,
-                            ProductName = "Taurus Hardcore Gaming RTX 5070 Ti - 7800X3D",
-                            SupplyerId = 3,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CategoryId = 1,
-                            Description = "Budget PC",
-                            Price = 12990m,
-                            ProductName = "Lenovo LOQ - i5 | 16GB | 1TB | RTX 4060 Ti",
-                            SupplyerId = 2,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CategoryId = 1,
-                            Description = "Budget PC",
-                            Price = 9990m,
-                            ProductName = "Lenovo LOQ - i5 | 16GB | 512GB | RTX 3050",
-                            SupplyerId = 2,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CategoryId = 3,
-                            Description = "Cellphone",
-                            Price = 4790m,
-                            ProductName = "Nothing Phone (3a) 12+256GB Svart",
-                            SupplyerId = 4,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CategoryId = 3,
-                            Description = "Cellphone",
-                            Price = 14490m,
-                            ProductName = "Samsung Galaxy S25+ (256GB) Navy",
-                            SupplyerId = 5,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CategoryId = 3,
-                            Description = "Cellphone",
-                            Price = 16090m,
-                            ProductName = "Apple iPhone 16 Pro Max (256GB) Svart Titan",
-                            SupplyerId = 6,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 16,
-                            CategoryId = 4,
-                            Description = "Workshop",
-                            Price = 13490m,
-                            ProductName = "Philips 32\" Evnia 32M2N8900 OLED 4K 240 Hz Ambiglow",
-                            SupplyerId = 8,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CategoryId = 4,
-                            Description = "Workshop",
-                            Price = 3900m,
-                            ProductName = "Philips 24\" Evnia 24M1N3200ZS IPS 165 Hz",
-                            SupplyerId = 8,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CategoryId = 4,
-                            Description = "Gamingmonitor",
-                            Price = 17990m,
-                            ProductName = "LG 32\" UltraGear 32GS95UV OLED 4K 240/480 Hz Dual Mode",
-                            SupplyerId = 7,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 19,
-                            CategoryId = 4,
-                            Description = "Gamingmonitor",
-                            Price = 11990m,
-                            ProductName = "LG 27\" UltraGear 27GX790A OLED QHD 480 Hz",
-                            SupplyerId = 1,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 20,
-                            CategoryId = 4,
-                            Description = "Coding monitor",
-                            Price = 31990m,
-                            ProductName = "Samsung 55\" Odyssey ARK (2nd gen.) Quantum Mini LED 4K 165 Hz",
-                            SupplyerId = 5,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 21,
-                            CategoryId = 4,
-                            Description = "Coding monitor",
-                            Price = 14990m,
-                            ProductName = "Samsung 32'' Odyssey G81SF OLED 4K 240 Hz",
-                            SupplyerId = 5,
-                            UnitsInStock = 10
-                        },
-                        new
-                        {
-                            Id = 22,
-                            CategoryId = 4,
-                            Description = "Coding monitor",
-                            Price = 15990m,
-                            ProductName = "Samsung 49\" Odyssey G93SC OLED DQHD (1800R) 240 Hz",
-                            SupplyerId = 5,
-                            UnitsInStock = 10
-                        });
                 });
 
             modelBuilder.Entity("SlutUppgiftWebShop.Models.Supplyer", b =>
@@ -606,80 +366,6 @@ namespace SlutUppgiftWebShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Supplyers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Mitt i vattnet",
-                            ContactPerson = "Lars-Olof Svan",
-                            Email = "Svanensbanan@gmail.com",
-                            Name = "AMD",
-                            PhoneNumber = "0712345678"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Mitt i medelhavet",
-                            ContactPerson = "Gunnar Bärs",
-                            Email = "bärs@gmail.com",
-                            Name = "Intel",
-                            PhoneNumber = "0787654321"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "Vattnadal",
-                            ContactPerson = "Gandalf Svensson",
-                            Email = "gandalf@gmail.com",
-                            Name = "Nvidia",
-                            PhoneNumber = "0713371337"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Address = "Finns inte",
-                            ContactPerson = "Ingen hemma",
-                            Email = "ingenting@gmail.com",
-                            Name = "Nothing",
-                            PhoneNumber = "0732178965"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Address = "Någonstans på gatan",
-                            ContactPerson = "Telefon Samson",
-                            Email = "samson@gmail.com",
-                            Name = "Samsung",
-                            PhoneNumber = "0712378945"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Address = "Äppelträdet",
-                            ContactPerson = "Royal Gala",
-                            Email = "äpple@gmail.com",
-                            Name = "Apple",
-                            PhoneNumber = "0712398745"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Address = "Grottan",
-                            ContactPerson = "Lasse Berghagen",
-                            Email = "LongGone@gmail.com",
-                            Name = "LG",
-                            PhoneNumber = "0712398754"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Address = "Grönsakslandet",
-                            ContactPerson = "Philip Grönsak",
-                            Email = "Grönsaken@gmail.com",
-                            Name = "Philips",
-                            PhoneNumber = "0712398756"
-                        });
                 });
 
             modelBuilder.Entity("SlutUppgiftWebShop.Models.Customer", b =>
@@ -712,11 +398,15 @@ namespace SlutUppgiftWebShop.Migrations
             modelBuilder.Entity("SlutUppgiftWebShop.Models.Cart", b =>
                 {
                     b.HasOne("SlutUppgiftWebShop.Models.Customer", "Customer")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Carts_People_CustomerId");
+
+                    b.HasOne("SlutUppgiftWebShop.Models.Customer", null)
+                        .WithMany("Carts")
+                        .HasForeignKey("CustomerId1");
 
                     b.Navigation("Customer");
                 });
